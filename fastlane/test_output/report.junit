@@ -1,0 +1,28 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<testsuites name='MVVM-CTests.xctest' tests='17' failures='0'>
+  <testsuite name='MVVM_CTests.ListViewModelTests' tests='6' failures='0'>
+    <testcase classname='MVVM_CTests.ListViewModelTests' name='test_ListViewModel_EmptyURL' time='0.010'/>
+    <testcase classname='MVVM_CTests.ListViewModelTests' name='test_ListViewModel_LoadFailed' time='0.070'/>
+    <testcase classname='MVVM_CTests.ListViewModelTests' name='test_ListViewModel_LoadSuccessful' time='0.021'/>
+    <testcase classname='MVVM_CTests.ListViewModelTests' name='test_ListViewModel_NumberOfRows' time='0.006'/>
+    <testcase classname='MVVM_CTests.ListViewModelTests' name='test_ListViewModel_ProgressShown' time='0.005'/>
+    <testcase classname='MVVM_CTests.ListViewModelTests' name='test_ListViewModel_TextForRow' time='0.009'/>
+  </testsuite>
+  <testsuite name='MVVM_CTests.LoginFlowControllerTests' tests='4' failures='0'>
+    <testcase classname='MVVM_CTests.LoginFlowControllerTests' name='test_LoginFlowController_routeToAlert' time='0.010'/>
+    <testcase classname='MVVM_CTests.LoginFlowControllerTests' name='test_LoginFlowController_routeToAlertMessage' time='0.010'/>
+    <testcase classname='MVVM_CTests.LoginFlowControllerTests' name='test_LoginFlowController_routeToList' time='0.006'/>
+    <testcase classname='MVVM_CTests.LoginFlowControllerTests' name='test_LoginFlowController_routeToLogin' time='0.004'/>
+  </testsuite>
+  <testsuite name='MVVM_CTests.LoginViewModelTests' tests='4' failures='0'>
+    <testcase classname='MVVM_CTests.LoginViewModelTests' name='test_LoginViewModel_ErrorHidden' time='0.007'/>
+    <testcase classname='MVVM_CTests.LoginViewModelTests' name='test_LoginViewModel_LoginFailed' time='2.064'/>
+    <testcase classname='MVVM_CTests.LoginViewModelTests' name='test_LoginViewModel_LoginSuccessful' time='2.034'/>
+    <testcase classname='MVVM_CTests.LoginViewModelTests' name='test_LoginViewModel_ProgressShown' time='0.004'/>
+  </testsuite>
+  <testsuite name='MVVM_CTests.MVVM_CTests' tests='3' failures='0'>
+    <testcase classname='MVVM_CTests.MVVM_CTests' name='test_StringDataParser_Parse' time='0.000'/>
+    <testcase classname='MVVM_CTests.MVVM_CTests' name='test_URLBuilder_Build' time='0.000'/>
+    <testcase classname='MVVM_CTests.MVVM_CTests' name='test_URLBuilder_URL' time='0.000'/>
+  </testsuite>
+</testsuites>

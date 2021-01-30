@@ -16,7 +16,7 @@ class LoginViewModelTests: XCTestCase {
     private var navigationController: UINavigationController!
     private var loginViewModel: LoginViewModelCompatible!
     private var loginView: LoginViewCompatible!
-    
+
     override func setUpWithError() throws {
         let navigationController = UINavigationController()
         self.navigationController = navigationController
@@ -43,7 +43,7 @@ class LoginViewModelTests: XCTestCase {
         
         navigationController?.setViewControllers([loginView], animated: false)
         let promise = expectation(description: "Request finished.")
-        
+
         loginViewModel.requestLoginData(model: model) { [weak self] in
             let view = self?.loginView as? LoginViewController
             XCTAssertTrue(view?.progressView.isHidden ?? false)
@@ -53,7 +53,7 @@ class LoginViewModelTests: XCTestCase {
         guard let view = navigationController?.viewControllers.first as? ListViewController else { return XCTFail() }
         XCTAssertNotNil(view.model?.url)
     }
-    
+
     func test_LoginViewModel_LoginFailed() throws {
         let errorText = "Error"
         let model = LoginModel(login: "", password: "")
@@ -73,7 +73,7 @@ class LoginViewModelTests: XCTestCase {
         XCTAssertFalse(viewController.errorLabel.isHidden)
         XCTAssertTrue(viewController.progressView.isHidden)
     }
-    
+
     func test_LoginViewModel_ErrorHidden() throws {
         navigationController?.setViewControllers([loginView], animated: false)
         guard let viewController = navigationController?.viewControllers.first as? LoginViewController else {
@@ -81,7 +81,7 @@ class LoginViewModelTests: XCTestCase {
         }
         XCTAssertTrue(viewController.errorLabel.isHidden)
     }
-    
+
     func test_LoginViewModel_ProgressShown() throws {
         let model = LoginModel(login: "user", password: "123qwe")
         let provider = LoginDataProviderMock()
