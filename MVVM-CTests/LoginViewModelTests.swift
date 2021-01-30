@@ -9,10 +9,9 @@ import XCTest
 @testable import MVVM_C
 
 class LoginViewModelTests: XCTestCase {
-    
     private let testUrlString = "https://www.random.org/strings/"
     private let testQueryString = "num=10&len=8&digits=on&upperalpha=on&loweralpha=on&unique=on&format=plain&rnd=new"
-    
+
     private var navigationController: UINavigationController!
     private var loginViewModel: LoginViewModelCompatible!
     private var loginView: LoginViewCompatible!
@@ -40,7 +39,7 @@ class LoginViewModelTests: XCTestCase {
         let provider = LoginDataProviderMock()
         provider.result = .success((testUrlString, testQueryString))
         loginViewModel.loginDataProvider = provider
-        
+
         navigationController?.setViewControllers([loginView], animated: false)
         let promise = expectation(description: "Request finished.")
 
@@ -88,7 +87,7 @@ class LoginViewModelTests: XCTestCase {
         provider.result = .success((testUrlString, testQueryString))
         loginViewModel.loginDataProvider = provider
         navigationController?.setViewControllers([loginView], animated: false)
-        
+
         loginViewModel.requestLoginData(model: model, completion: nil)
         guard let viewController = navigationController?.viewControllers.first as? LoginViewController else {
             return XCTFail()

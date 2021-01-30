@@ -16,5 +16,3 @@ struct LoginModel: LoginModelCompatible {
     let login: String
     let password: String
 }
-
-

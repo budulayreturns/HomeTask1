@@ -24,30 +24,28 @@ protocol ListDataProviderCompatible {
 }
 
 final class ListDataProvider: ListDataProviderCompatible {
-    
     // MARK: - Properties
-    
+
     enum Constants {
         static let noData = "No data."
     }
-    
+
     private let defaultURLSession = URLSession(configuration: .default)
     private var dataTask: URLSessionDataTask?
-    
-    
+
+
     deinit {
         dataTask?.cancel()
     }
-    
+
     // MARK: - Public
-    
+
     func load(url: URL,
               completion: @escaping (Result<Data, NetworkError>) -> Void) {
-        
         dataTask?.cancel()
-        
+
         dataTask = defaultURLSession.dataTask(with: url,
-                                              completionHandler: { [weak self] (data, response, error) in
+                                              completionHandler: { [weak self] data, response, error in
             defer {
                 self?.dataTask = nil
             }
@@ -74,7 +72,7 @@ final class ListDataProvider: ListDataProviderCompatible {
         })
         dataTask?.resume()
     }
-    
+
     func cancel() {
         dataTask?.cancel()
     }

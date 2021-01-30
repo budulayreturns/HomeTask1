@@ -9,7 +9,6 @@ import XCTest
 @testable import MVVM_C
 
 class MVVM_CTests: XCTestCase {
-
     private let testString = "string\nstring"
     private let testUrlString = "https://www.random.org/strings/"
     private let testQueryString = "num=10&len=8&digits=on&upperalpha=on&loweralpha=on&unique=on&format=plain&rnd=new"
@@ -19,11 +18,9 @@ class MVVM_CTests: XCTestCase {
     }
 
     override func setUpWithError() throws {
-
     }
 
     override func tearDownWithError() throws {
-
     }
 
     func test_StringDataParser_Parse() throws {

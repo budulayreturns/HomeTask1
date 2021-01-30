@@ -13,17 +13,16 @@ protocol LoginViewModelCompatible {
 }
 
 final class LoginViewModel {
-    
     // MARK: - Properties
-    
+
     weak var view: LoginViewCompatible?
     weak var flowDelegate: LoginFlowDelegate?
     var loginDataProvider: LoginDataProviderCompatible = LoginDataProvider()
-    
+
     private let urlBuilder: URLBuilderCompatible = URLBuilder()
-    
+
     // MARK: - Lifecycle
-    
+
     init(view: LoginViewCompatible, flowDelegate: LoginFlowDelegate) {
         self.view = view
         self.flowDelegate = flowDelegate
@@ -45,14 +44,13 @@ extension LoginViewModel: LoginViewModelCompatible {
                         .set(query: queryString)
                         .build()
                     self?.flowDelegate?.routeToList(url: url)
-                    //completion?()
+                    // completion?()
                 case .failure(let error):
                     self?.view?.hideLoading()
                     switch error.kind {
                     case .failed:
                         self?.view?.showLoginError(message: error.message)
                     }
-                    
                 }
                 completion?()
             }

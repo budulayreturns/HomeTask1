@@ -17,21 +17,20 @@ protocol ListViewCompatible: UIViewController {
 }
 
 final class ListViewController: UIViewController, ListViewCompatible {
-    
     // MARK: - Enums
-    
+
     enum Constants {
         static let reusableIdentifier = "basicStyle"
         static let logoutButtonName = "Logout"
         static let navigationBarTitle = "List"
         static let okActionName = "Ok"
     }
-    
+
     // MARK: - Properties
-    
+
     var model: ListViewModelCompatible?
-    var flowDelegate: LoginFlowDelegate?
-    
+    weak var flowDelegate: LoginFlowDelegate?
+
     private lazy var barButton: UIBarButtonItem = {
         let item = UIBarButtonItem(title: Constants.logoutButtonName,
                                   style: .plain,
@@ -39,7 +38,7 @@ final class ListViewController: UIViewController, ListViewCompatible {
                                   action: #selector(didTapLogout))
         return item
     }()
-    
+
     private lazy var tableView: UITableView = {
         let item = UITableView()
         item.translatesAutoresizingMaskIntoConstraints = false
@@ -49,7 +48,7 @@ final class ListViewController: UIViewController, ListViewCompatible {
                       forCellReuseIdentifier: Constants.reusableIdentifier)
         return item
     }()
-    
+
     let progressView: UIActivityIndicatorView = {
         let item = UIActivityIndicatorView()
         item.translatesAutoresizingMaskIntoConstraints = false
@@ -57,43 +56,43 @@ final class ListViewController: UIViewController, ListViewCompatible {
         item.color = .gray
         return item
     }()
-    
+
     // MARK: - Lifecyle
-    
+
     deinit {
         model?.cancelRequestData()
     }
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
     }
-    
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         model?.requestListData(completion: nil)
     }
-    
+
     // MARK: - Public
-    
+
     func showLoading() {
         progressView.startAnimating()
     }
-    
+
     func hideLoading() {
         progressView.stopAnimating()
     }
-    
+
     func reloadData() {
         tableView.reloadData()
     }
-    
+
     func showLoadingError(message: String) {
         flowDelegate?.routeToAlert(message: message)
     }
-    
+
     // MARK: - Actions
-    
+
     @objc
     func didTapLogout() {
         flowDelegate?.routeToLogin()
@@ -109,18 +108,18 @@ private extension ListViewController {
         configureProgressView()
         configureNavigationBarButton()
     }
-    
+
     func configureNavigationBarButton() {
         navigationItem.title = Constants.navigationBarTitle
         navigationItem.rightBarButtonItem = barButton
     }
-    
+
     func configureProgressView() {
         view.addSubview(progressView)
         progressView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         progressView.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
     }
-    
+
     func configureTableView() {
         view.addSubview(tableView)
         tableView.translatesAutoresizingMaskIntoConstraints = false
@@ -134,11 +133,10 @@ private extension ListViewController {
 // MARK: - UITableViewDelegate, UITableViewDataSource
 
 extension ListViewController: UITableViewDelegate, UITableViewDataSource {
-    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return model?.numberOfRows ?? 0
     }
-    
+
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: Constants.reusableIdentifier, for: indexPath)
         cell.textLabel?.text = model?.textForRow(at: indexPath.row)

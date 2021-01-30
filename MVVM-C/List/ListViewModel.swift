@@ -17,19 +17,18 @@ protocol ListViewModelCompatible: class {
 }
 
 final class ListViewModel {
-    
     // MARK: - Properties
     var url: URL?
     weak var flowDelegate: LoginFlowDelegate?
     weak var view: ListViewCompatible?
-    
+
     var model: [String] = []
     var listDataProvider: ListDataProviderCompatible = ListDataProvider()
-    
+
     private let dataParser: StringDataParserCompatible = StringDataParser()
-    
+
     // MARK: - Lifecycle
-    
+
     init(view: ListViewCompatible, flowDelegate: LoginFlowDelegate) {
         self.view = view
         self.flowDelegate = flowDelegate
@@ -39,18 +38,17 @@ final class ListViewModel {
 // MARK: - ListViewModelCompatible protocol
 
 extension ListViewModel: ListViewModelCompatible {
-    
     var numberOfRows: Int {
         return model.count
     }
-    
+
     func textForRow(at index: Int) -> String? {
         if model.indices.contains(index) {
             return model[index]
         }
         return nil
     }
-    
+
     func requestListData(completion: (() -> Void)?) {
         guard let url = url else {
             completion?()
@@ -76,7 +74,7 @@ extension ListViewModel: ListViewModelCompatible {
             }
         }
     }
-    
+
     func cancelRequestData() {
         listDataProvider.cancel()
     }
