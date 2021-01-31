@@ -1,4 +1,5 @@
 import Danger
+import DangerSwiftCoverage
 
 let danger = Danger()
 
@@ -25,11 +26,4 @@ if let additions = danger.github.pullRequest.additions,
 }
 
 SwiftLint.lint()
-
-let report = xcov.produce_report(
-   scheme: "MVVM-C",
-   workspace: "MVVM-C.xcworkspace"
-)
-
-xcov.output_report(report)
-
+Coverage.spmCoverage(minimumCoverage: 50)

@@ -31,6 +31,7 @@
 		331BC483256AA306000F02DF /* ListViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 331BC482256AA306000F02DF /* ListViewModelTests.swift */; };
 		331BC48E256AA377000F02DF /* LoginFlowControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 331BC48D256AA377000F02DF /* LoginFlowControllerTests.swift */; };
 		4D3EB33725C578FB0094881B /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 4D3EB33625C578FB0094881B /* .swiftlint.yml */; };
+		4DF45CF425C958CB009C381B /* MVVM-C.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DF45CF325C958CB009C381B /* MVVM-C.swift */; };
 		4EE94F1D7EA1F09037948856 /* Pods_MVVM_C.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 514F07C80FE49F6C7520E73F /* Pods_MVVM_C.framework */; };
 /* End PBXBuildFile section */
 
@@ -80,6 +81,7 @@
 		331BC482256AA306000F02DF /* ListViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListViewModelTests.swift; sourceTree = "<group>"; };
 		331BC48D256AA377000F02DF /* LoginFlowControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginFlowControllerTests.swift; sourceTree = "<group>"; };
 		4D3EB33625C578FB0094881B /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
+		4DF45CF325C958CB009C381B /* MVVM-C.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MVVM-C.swift"; sourceTree = "<group>"; };
 		514F07C80FE49F6C7520E73F /* Pods_MVVM_C.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MVVM_C.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5AD0AB61156B4DF30DA78183 /* Pods-MVVM-CTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MVVM-CTests.debug.xcconfig"; path = "Target Support Files/Pods-MVVM-CTests/Pods-MVVM-CTests.debug.xcconfig"; sourceTree = "<group>"; };
 		6447A1AE182B9F032434AE05 /* Pods-MVVM-C-MVVM-CUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MVVM-C-MVVM-CUITests.debug.xcconfig"; path = "Target Support Files/Pods-MVVM-C-MVVM-CUITests/Pods-MVVM-C-MVVM-CUITests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -166,6 +168,7 @@
 				331BC3F32566BEC2000F02DF /* Assets.xcassets */,
 				331BC3F52566BEC2000F02DF /* LaunchScreen.storyboard */,
 				331BC3F82566BEC2000F02DF /* Info.plist */,
+				4DF45CF325C958CB009C381B /* MVVM-C.swift */,
 			);
 			path = "MVVM-C";
 			sourceTree = "<group>";
@@ -479,6 +482,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				331BC4632569628D000F02DF /* StringDataParser.swift in Sources */,
+				4DF45CF425C958CB009C381B /* MVVM-C.swift in Sources */,
 				331BC4272566C45C000F02DF /* LoginViewModel.swift in Sources */,
 				331BC42C2566C640000F02DF /* LoginFlowController.swift in Sources */,
 				331BC45925694989000F02DF /* ListDataProvider.swift in Sources */,

@@ -51,4 +51,15 @@ platform :ios do
 	scan(devices: ["iPhone 8"], scheme: scheme)
 	notify("Built", message)
   end
+
+  desc "Test an measure code coverage"
+  lane :test do
+    run_tests(devices: ["iPhone 8"])
+	
+    xcov(
+      workspace: "MVVM-C.xcworkspace",
+      scheme: "MVVM-C",
+      output_directory: "fastlane/xcov_output"
+    )
+  end
 end

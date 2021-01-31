@@ -1,36 +1,22 @@
 // swift-tools-version:5.3
 
-import Foundation
 import PackageDescription
 
 let package = Package(
-    name: "MVVM-C",
-    defaultLocalization: "ru",
-    platforms: [
-        .iOS(.v14)
-    ],
+    name: "hometask1",
+    defaultLocalization: "en",
     products: [
-            .library(name: "MVVM-C", type: .dynamic, targets: ["MVVM-C"]),
-        ],
-        dependencies: [
-            .package(name: "danger-swift", url: "https://github.com/danger/swift.git", from: "3.0.0"),
-
-        ],
-        targets: [
-            .target(
-                name: "MVVM-C",
-                dependencies: [
-                    .product(name: "Danger", package: "danger-swift"),
-                    
-                ],
-                path: "./MVVM-C",
-                exclude: ["Info.plist"]
-            ),
-            .testTarget(
-                name: "MVVM-CTests",
-                dependencies: ["MVVM-C"],
-                path: "./MVVM-CTests",
-                exclude: ["Info.plist"]
-            ),
-        ]
+        .library(name: "DangerDepsHomeTask", type: .dynamic, targets: ["hometask1"])
+    ],
+    dependencies: [
+        .package(name: "danger-swift", url: "https://github.com/danger/swift.git", from: "1.0.0"),
+        .package(name: "DangerSwiftCoverage", url: "https://github.com/f-meloni/danger-swift-coverage", from: "0.1.0")
+    ],
+    targets: [
+        .target(
+            name: "hometask1",
+            dependencies: ["danger-swift", "DangerSwiftCoverage"],
+            path: "MVVM-C", 
+            sources: ["MVVM-C.swift"]),
+    ]
 )

@@ -21,6 +21,11 @@ or alternatively using `brew install fastlane`
 fastlane ios build_lane
 ```
 Builds the project, runs unit tests
+### ios test
+```
+fastlane ios test
+```
+Test an measure code coverage
 
 ----
 
