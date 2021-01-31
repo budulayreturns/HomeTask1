@@ -8,34 +8,76 @@
 import XCTest
 
 class MVVM_CUITests: XCTestCase {
+
+    private var app: XCUIApplication?
+
     override func setUpWithError() throws {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
-
-        // In UI tests it is usually best to stop immediately when a failure occurs.
         continueAfterFailure = false
+        app = XCUIApplication()
+        app?.launch()
 
-        // In UI tests it’s important to set the initial state - such as interface orientation - required for your tests before they run. The setUp method is a good place to do this.
     }
 
     override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
+        app = nil
     }
 
-    func testExample() throws {
-        // UI tests must launch the application that they test.
-        let app = XCUIApplication()
-        app.launch()
+    func testLoginIsSuccessful() throws {
+        guard let app = self.app else {
+            XCTFail("XCUIApplication is nil")
+            return
+        }
 
-        // Use recording to get started writing UI tests.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
+        let loginField = app.textFields["loginField"]
+        input(text: "user", element: loginField)
+
+        let passwordField = app.secureTextFields["passwordField"]
+        input(text: "123qwe", element: passwordField)
+        input(text: "\n", element: passwordField)
+
+        let signInButton = app.buttons["signIn"]
+        signInButton.tap()
+
+        let tableView = app.tables["tableView"]
+        let errorLabel = app.staticTexts["errorLabel"]
+        XCTAssertTrue(tableView.waitForExistence(timeout: 3))
+        XCTAssertFalse(errorLabel.waitForExistence(timeout: 3))
+    }
+
+    func testLoginFailed() throws {
+        guard let app = self.app else {
+            XCTFail("XCUIApplication is nil")
+            return
+        }
+
+        let loginField = app.textFields["loginField"]
+        input(text: "user", element: loginField)
+
+        let passwordField = app.secureTextFields["passwordField"]
+        input(text: "00000", element: passwordField)
+        input(text: "\n", element: passwordField)
+
+        let signInButton = app.buttons["signIn"]
+        signInButton.tap()
+
+        let tableView = app.tables["tableView"]
+        let errorLabel = app.staticTexts["errorLabel"]
+    
+        XCTAssertTrue(errorLabel.waitForExistence(timeout: 3)
+                        && errorLabel.label.lowercased().contains("failed"))
+        XCTAssertFalse(tableView.waitForExistence(timeout: 3))
     }
 
     func testLaunchPerformance() throws {
         if #available(macOS 10.15, iOS 13.0, tvOS 13.0, *) {
-            // This measures how long it takes to launch your application.
             measure(metrics: [XCTApplicationLaunchMetric()]) {
                 XCUIApplication().launch()
             }
         }
+    }
+
+    func input(text: String, element: XCUIElement) {
+        element.tap()
+        element.typeText(text)
     }
 }

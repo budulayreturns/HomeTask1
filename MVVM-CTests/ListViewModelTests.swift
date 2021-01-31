@@ -11,8 +11,8 @@ import XCTest
 class ListViewModelTests: XCTestCase {
     private let testUrl = URL(string: "https://www.random.org/strings/?num=10&len=8&digits=on&upperalpha=on&loweralpha=on&unique=on&format=plain&rnd=new")
 
-    private let testArray = ["1", "2"]
-    private let testString = "1\n2"
+    private let testArray = ["1", "2", "b", "a"]
+    private let testString = "1\n2\nb\na\n"
     private let errorText = "Error"
     private var testData: Data {
         return Data(testString.utf8)
@@ -42,18 +42,50 @@ class ListViewModelTests: XCTestCase {
 
     func test_ListViewModel_NumberOfRows() throws {
         guard let listViewModel = self.listViewModel as? ListViewModel else {
-            return XCTFail()
+            return XCTFail("listViewModel is nil")
         }
         listViewModel.model = testArray
         XCTAssertEqual(listViewModel.numberOfRows, testArray.count)
     }
 
-    func test_ListViewModel_TextForRow() throws {
+    func test_ListViewModel_TextForRowUnsorted() throws {
         guard let listViewModel = self.listViewModel as? ListViewModel else {
-            return XCTFail()
+            return XCTFail("listViewModel is nil")
         }
         listViewModel.model = testArray
-        XCTAssertEqual(listViewModel.textForRow(at: 0), testArray.first)
+        var resultArray: [String] = []
+        for index in 0...listViewModel.model.count {
+            guard let string = listViewModel.textForRow(at: index, order: .unsorted) else { continue }
+            resultArray.append(string)
+        }
+        XCTAssertEqual(resultArray, testArray)
+    }
+
+    func test_ListViewModel_TextForRowAscending() throws {
+        guard let listViewModel = self.listViewModel as? ListViewModel else {
+            return XCTFail("listViewModel is nil")
+        }
+        listViewModel.model = testArray
+        var resultArray: [String] = []
+        for index in 0...listViewModel.model.count {
+            guard let string = listViewModel.textForRow(at: index, order: .ascending) else { continue }
+            resultArray.append(string)
+        }
+        XCTAssertEqual(resultArray, testArray.sorted(by: <))
+    }
+
+    func test_ListViewModel_TextForRowDescending() throws {
+        guard let listViewModel = self.listViewModel as? ListViewModel else {
+            return XCTFail("listViewModel is nil")
+        }
+        listViewModel.model = testArray
+
+        var resultArray: [String] = []
+        for index in 0...listViewModel.model.count {
+            guard let string = listViewModel.textForRow(at: index, order: .descending) else { continue }
+            resultArray.append(string)
+        }
+        XCTAssertEqual(resultArray, testArray.sorted(by: >))
     }
 
     func test_ListViewModel_LoadSuccessful() throws {
@@ -63,7 +95,7 @@ class ListViewModelTests: XCTestCase {
         listViewModel.listDataProvider = provider
         navigationController?.setViewControllers([listView], animated: false)
 
-        guard let viewModel = listViewModel as? ListViewModel else { return XCTFail() }
+        guard let viewModel = listViewModel as? ListViewModel else { return XCTFail("listViewModel is nil") }
         viewModel.url = testUrl
         let promise = expectation(description: "Load finished")
 
@@ -75,7 +107,7 @@ class ListViewModelTests: XCTestCase {
         wait(for: [promise], timeout: 10)
 
         guard let view = self.listView as? ListViewController else {
-            return XCTFail()
+            return XCTFail("listView is nil")
         }
 
         XCTAssertFalse(viewModel.model.isEmpty)
@@ -90,7 +122,7 @@ class ListViewModelTests: XCTestCase {
         listViewModel.listDataProvider = provider
         navigationController?.setViewControllers([listView], animated: false)
 
-        guard let viewModel = listViewModel as? ListViewModel else { return XCTFail() }
+        guard let viewModel = listViewModel as? ListViewModel else { return XCTFail("listViewModel is nil") }
         viewModel.url = nil
         let promise = expectation(description: "Load finished")
 
@@ -108,7 +140,7 @@ class ListViewModelTests: XCTestCase {
         listViewModel.listDataProvider = provider
         navigationController?.setViewControllers([listView], animated: false)
 
-        guard let viewModel = listViewModel as? ListViewModel else { return XCTFail() }
+        guard let viewModel = listViewModel as? ListViewModel else { return XCTFail("listViewModel is nil") }
         viewModel.url = testUrl
         let promise = expectation(description: "Load finished")
 
@@ -117,11 +149,11 @@ class ListViewModelTests: XCTestCase {
         }
         wait(for: [promise], timeout: 10)
         guard let view = self.listView as? ListViewController else {
-            return XCTFail()
+            return XCTFail("listView is nil")
         }
         XCTAssertTrue(viewModel.model.isEmpty)
         guard let alert = view.presentedViewController as? UIAlertController else {
-            return XCTFail()
+            return XCTFail("No view is presented")
         }
         XCTAssertEqual(alert.message, errorText)
         expectToEventually(view.progressView.isHidden, timeout: 2)
@@ -136,7 +168,7 @@ class ListViewModelTests: XCTestCase {
         viewModel.url = testUrl
         listViewModel.requestListData(completion: nil)
         guard let view = self.listView as? ListViewController else {
-            return XCTFail()
+            return XCTFail("listView is nil")
         }
         XCTAssertFalse(view.progressView.isHidden)
     }
@@ -159,6 +191,6 @@ extension XCTest {
             wait()
         } while !isTimeout()
 
-        XCTFail()
+        XCTFail("Failed by timeout")
     }
 }

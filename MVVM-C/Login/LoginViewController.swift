@@ -30,11 +30,12 @@ class LoginViewController: UIViewController, LoginViewCompatible {
 
     // MARK: - Properties
 
-    weak var flowDelegate: LoginFlowDelegate?
+    var flowDelegate: LoginFlowDelegate?
     var model: LoginViewModelCompatible?
 
     private lazy var button: UIButton = {
         let item = UIButton()
+        item.accessibilityIdentifier = "signIn"
         item.setTitle(Constants.buttonTitle, for: .normal)
         item.setTitleColor(.white, for: .normal)
         item.layer.cornerRadius = Constants.cornerRadius
@@ -56,6 +57,8 @@ class LoginViewController: UIViewController, LoginViewCompatible {
 
     private lazy var loginField: UITextField = {
         let item = UITextField()
+        item.accessibilityIdentifier = "loginField"
+        item.isAccessibilityElement = false
         item.translatesAutoresizingMaskIntoConstraints = false
         item.clearsOnInsertion = true
         item.clearsOnBeginEditing = true
@@ -72,6 +75,8 @@ class LoginViewController: UIViewController, LoginViewCompatible {
 
     private lazy var passwordField: UITextField = {
         let item = UITextField()
+        item.accessibilityIdentifier = "passwordField"
+        item.isAccessibilityElement = false
         item.translatesAutoresizingMaskIntoConstraints = false
         item.clearsOnInsertion = true
         item.clearsOnBeginEditing = true
@@ -88,6 +93,7 @@ class LoginViewController: UIViewController, LoginViewCompatible {
 
     let errorLabel: UILabel = {
         let item = UILabel()
+        item.accessibilityIdentifier = "errorLabel"
         item.translatesAutoresizingMaskIntoConstraints = false
         item.numberOfLines = 0
         item.textColor = .red
@@ -185,5 +191,9 @@ private extension LoginViewController {
 extension LoginViewController: UITextFieldDelegate {
     func textFieldDidBeginEditing(_ textField: UITextField) {
         hideLoginError()
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.endEditing(true)
     }
 }

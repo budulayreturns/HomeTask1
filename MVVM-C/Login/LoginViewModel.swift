@@ -44,7 +44,7 @@ extension LoginViewModel: LoginViewModelCompatible {
                         .set(query: queryString)
                         .build()
                     self?.flowDelegate?.routeToList(url: url)
-                    // completion?()
+
                 case .failure(let error):
                     self?.view?.hideLoading()
                     switch error.kind {

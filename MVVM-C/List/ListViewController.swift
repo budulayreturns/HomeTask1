@@ -24,28 +24,46 @@ final class ListViewController: UIViewController, ListViewCompatible {
         static let logoutButtonName = "Logout"
         static let navigationBarTitle = "List"
         static let okActionName = "Ok"
+        static let asIs = "As is"
+        static let ascendingOrder = "A-Z"
+        static let descendingOrder = "Z-A"
     }
 
     // MARK: - Properties
 
     var model: ListViewModelCompatible?
-    weak var flowDelegate: LoginFlowDelegate?
+    var flowDelegate: LoginFlowDelegate?
 
     private lazy var barButton: UIBarButtonItem = {
-        let item = UIBarButtonItem(title: Constants.logoutButtonName,
-                                  style: .plain,
-                                  target: self,
-                                  action: #selector(didTapLogout))
+        let item = UIBarButtonItem(
+            title: Constants.logoutButtonName,
+            style: .plain,
+            target: self,
+            action: #selector(didTapLogout))
+        return item
+    }()
+
+    private lazy var segmentedControl: UISegmentedControl = {
+        let item = UISegmentedControl(
+            items: [Constants.asIs, Constants.ascendingOrder, Constants.descendingOrder]
+        )
+        item.accessibilityIdentifier = "segmentedControl"
+        item.selectedSegmentIndex = 0
+        item.translatesAutoresizingMaskIntoConstraints = false
+        item.addTarget(self, action: #selector(indexChanged(_:)), for: .valueChanged)
         return item
     }()
 
     private lazy var tableView: UITableView = {
         let item = UITableView()
+        item.accessibilityIdentifier = "tableView"
         item.translatesAutoresizingMaskIntoConstraints = false
         item.delegate = self
         item.dataSource = self
-        item.register(UITableViewCell.self,
-                      forCellReuseIdentifier: Constants.reusableIdentifier)
+        item.register(
+            UITableViewCell.self,
+            forCellReuseIdentifier: Constants.reusableIdentifier
+        )
         return item
     }()
 
@@ -93,9 +111,12 @@ final class ListViewController: UIViewController, ListViewCompatible {
 
     // MARK: - Actions
 
-    @objc
-    func didTapLogout() {
+    @objc func didTapLogout() {
         flowDelegate?.routeToLogin()
+    }
+    
+    @objc func indexChanged(_ sender: UISegmentedControl) {
+        reloadData()
     }
 }
 
@@ -104,6 +125,7 @@ final class ListViewController: UIViewController, ListViewCompatible {
 private extension ListViewController {
     func setupUI() {
         view.backgroundColor = .white
+        configureSegmentedControl()
         configureTableView()
         configureProgressView()
         configureNavigationBarButton()
@@ -116,17 +138,29 @@ private extension ListViewController {
 
     func configureProgressView() {
         view.addSubview(progressView)
-        progressView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        progressView.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+        NSLayoutConstraint.activate([
+            progressView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            progressView.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+        ])
+    }
+
+    func configureSegmentedControl() {
+        view.addSubview(segmentedControl)
+        NSLayoutConstraint.activate([
+            segmentedControl.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 8),
+            segmentedControl.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
+            segmentedControl.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16)
+        ])
     }
 
     func configureTableView() {
         view.addSubview(tableView)
-        tableView.translatesAutoresizingMaskIntoConstraints = false
-        tableView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
-        tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
-        tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
-        tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+        NSLayoutConstraint.activate([
+            tableView.topAnchor.constraint(equalTo: segmentedControl.bottomAnchor, constant: 4),
+            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+        ])
     }
 }
 
@@ -139,7 +173,10 @@ extension ListViewController: UITableViewDelegate, UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: Constants.reusableIdentifier, for: indexPath)
-        cell.textLabel?.text = model?.textForRow(at: indexPath.row)
+        cell.textLabel?.text = model?.textForRow(
+            at: indexPath.row,
+            order: Order.init(rawValue: segmentedControl.selectedSegmentIndex)
+        )
         return cell
     }
 }

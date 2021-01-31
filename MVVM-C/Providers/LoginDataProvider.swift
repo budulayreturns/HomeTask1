@@ -16,8 +16,10 @@ struct LoginError: Error {
 }
 
 protocol LoginDataProviderCompatible {
-    func login(with model: LoginModelCompatible,
-               completion: (Result<(url: String, query: String), LoginError>) -> Void)
+    func login(
+        with model: LoginModelCompatible,
+        completion: (Result<(url: String, query: String), LoginError>) -> Void
+    )
 }
 
 struct LoginDataProvider: LoginDataProviderCompatible {
@@ -29,11 +31,14 @@ struct LoginDataProvider: LoginDataProviderCompatible {
         static let queryString = "num=10&len=8&digits=on&upperalpha=on&loweralpha=on&unique=on&format=plain&rnd=new"
     }
 
-    func login(with model: LoginModelCompatible,
-               completion: (Result<(url: String, query: String), LoginError>) -> Void) {
+    func login(
+        with model: LoginModelCompatible,
+        completion: (Result<(url: String, query: String), LoginError>) -> Void
+    ) {
         guard model.login == Constants.user && model.password == Constants.password else {
-            return completion(.failure(LoginError(message: Constants.loginError,
-                                                  kind: .failed)))
+            return completion(.failure(LoginError(
+                                        message: Constants.loginError,
+                                        kind: .failed)))
         }
         completion(.success((Constants.urlString, Constants.queryString)))
     }

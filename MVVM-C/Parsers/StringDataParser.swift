@@ -14,6 +14,8 @@ protocol StringDataParserCompatible {
 struct StringDataParser: StringDataParserCompatible {
     func parse(data: Data) -> [String] {
         let string = String(data: data, encoding: .utf8)
-        return string?.components(separatedBy: "\n") ?? []
+        return string?
+            .trimmingCharacters(in: .newlines)
+            .components(separatedBy: .newlines) ?? []
     }
 }

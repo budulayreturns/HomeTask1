@@ -11,9 +11,13 @@ protocol ListViewModelCompatible: class {
     var url: URL? { get }
     var numberOfRows: Int { get }
     var listDataProvider: ListDataProviderCompatible { get set }
-    func textForRow(at: Int) -> String?
+    func textForRow(at index: Int, order: Order?) -> String?
     func requestListData(completion: (() -> Void)?)
     func cancelRequestData()
+}
+
+enum Order: Int {
+    case unsorted = 0, ascending, descending
 }
 
 final class ListViewModel {
@@ -42,9 +46,9 @@ extension ListViewModel: ListViewModelCompatible {
         return model.count
     }
 
-    func textForRow(at index: Int) -> String? {
+    func textForRow(at index: Int, order: Order?) -> String? {
         if model.indices.contains(index) {
-            return model[index]
+            return sort(model: model, order: order)[index]
         }
         return nil
     }
@@ -77,5 +81,20 @@ extension ListViewModel: ListViewModelCompatible {
 
     func cancelRequestData() {
         listDataProvider.cancel()
+    }
+}
+
+// MARK: - Private
+
+private extension ListViewModel {
+    func sort(model: [String], order: Order?) -> [String] {
+        switch order {
+        case .ascending:
+            return model.sorted(by: <)
+        case .descending:
+            return model.sorted(by: >)
+        default:
+            return model
+        }
     }
 }

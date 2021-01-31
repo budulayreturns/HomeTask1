@@ -40,8 +40,10 @@ final class ListDataProvider: ListDataProviderCompatible {
 
     // MARK: - Public
 
-    func load(url: URL,
-              completion: @escaping (Result<Data, NetworkError>) -> Void) {
+    func load(
+        url: URL,
+        completion: @escaping (Result<Data, NetworkError>) -> Void
+    ) {
         dataTask?.cancel()
 
         dataTask = defaultURLSession.dataTask(with: url,
